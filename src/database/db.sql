@@ -1,7 +1,35 @@
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE SCHEMA db_complementacao;
+
+
+CREATE TABLE PERFIL (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    NOME VARCHAR(100) NOT NULL,
+    EMAIL VARCHAR(100) NOT NULL UNIQUE,
+    DESCRICAO TEXT NOT NULL
 );
+
+CREATE TABLE CURSOS (
+    ID  INT AUTO_INCREMENT PRIMARY KEY,
+    FK_PERFIL INT NOT NULL,
+    NOME VARCHAR(50) NOT NULL,
+    HORAS INT NOT NULL,
+    FOREIGN KEY (FK_PERFIL) REFERENCES PERFIL(ID)
+);
+
+CREATE TABLE CERTIFICADOS (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    FK_PERFIL INT NOT NULL,
+    TITULO VARCHAR(100) NOT NULL,
+    ANO INT NOT NULL,
+    IMAGEM VARCHAR(200),
+    FOREIGN KEY (FK_PERFIL) REFERENCES PERFIL(ID)
+);
+
+INSERT INTO PERFIL (NOME, EMAIL, DESCRICAO) VALUES
+('Renato da Silva Hipólito', 'mascarenhasr02@gmail.com','Estou no 2° Ano do ensino médio, cursando desenvolvimento de sistemas, tenho interesse em aprender novas habilidades e melhorar minhas capacidades');
+
+INSERT INTO CURSOS (FK_PERFIL, NOME, HORAS) VALUES
+(1, 'Unidade_HTML5 E CSS3 PARTE 1: CRIE UMA PÁGINA DA WEB', 8);
+
+INSERT INTO CERTIFICADOS (FK_PERFIL, TITULO, ANO, IMAGEM) VALUES
+(1, 'Unidade_HTML5 E CSS3 PARTE 1: CRIE UMA PÁGINA DA WEB', 2023, 'https://raw.githubusercontent.com/R3nato-code/R3nato-code.github.io/refs/heads/desenvolvimento/src/site/Certificado%201.jpg');
