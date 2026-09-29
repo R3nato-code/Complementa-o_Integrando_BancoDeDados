@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title> Renato | Dev Portfolio</title>
+
+  <!-- Bulma CSS Framework -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ===== VARIÁVEIS ===== */
+    :root {
+      --neon-ciano: #00f5ff;
+      --neon-roxo: #bf00ff;
+      --neon-verde: #39ff14;
+      --fundo-escuro: #050a0f;
+      --cartao-escuro: #0a1628;
+      --borda-escura: #0d2137;
+    }
+
+    /* ===== RESET E BASE ===== */
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+
+    html { background-color: var(--fundo-escuro); }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background-color: var(--fundo-escuro);
+      color: #c8d8e8;
+      overflow-x: hidden;
+      /* Sobrescreve o fundo branco padrão do Bulma */
+      background-color: var(--fundo-escuro) !important;
+    }
+
+    /* Sobrescrever cores padrão do Bulma para tema escuro */
+    .title, .subtitle, p, label, span, h1, h2, h3, h4 {
+      color: inherit;
+    }
+
+    /* Fundo com grade */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===== TIPOGRAFIA ===== */
+    .fonte-mono-tech { font-family: 'Share Tech Mono', monospace; }
+    .fonte-display   { font-family: 'Orbitron', sans-serif; }
+    .fonte-corpo     { font-family: 'Rajdhani', sans-serif; }
+
+    /* ===== EFEITOS NEON ===== */
+    .neon-ciano { color: var(--neon-ciano) !important; }
+    .neon-roxo  { color: var(--neon-roxo)  !important; }
+    .neon-verde { color: var(--neon-verde) !important; }
+
+    .brilho-ciano {
+      text-shadow: 0 0 8px var(--neon-ciano), 0 0 20px rgba(0,245,255,0.4), 0 0 40px rgba(0,245,255,0.2);
+    }
+    .brilho-roxo {
+      text-shadow: 0 0 8px var(--neon-roxo), 0 0 20px rgba(191,0,255,0.4);
+    }
+
+    /* ===== NAVBAR ===== */
+    .navbar-personalizada {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(5,10,15,0.85) !important;
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,245,255,0.15);
+      height: 64px;
+    }
+    .navbar-personalizada .navbar-brand,
+    .navbar-personalizada .navbar-menu {
+      background: transparent !important;
+    }
+    /* Hamburguer do Bulma */
+    .navbar-burger {
+      color: var(--neon-ciano) !important;
+    }
+    .navbar-burger span {
+      background-color: var(--neon-ciano) !important;
+    }
+    /* Menu mobile aberto */
+    .navbar-menu.is-active {
+      background: rgba(5,10,15,0.98) !important;
+      border-top: 1px solid rgba(0,245,255,0.1);
+      padding: 1rem 1.5rem;
+    }
+
+    .link-nav {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 0.7rem !important;
+      letter-spacing: 0.12em;
+      color: #6a8fa8 !important;
+      transition: color 0.2s, text-shadow 0.2s;
+      text-transform: uppercase;
+      background: transparent !important;
+    }
+    .link-nav:hover {
+      color: var(--neon-ciano) !important;
+      text-shadow: 0 0 10px rgba(0,245,255,0.6);
+      background: transparent !important;
+    }
+
+    .logo-nav {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--neon-ciano) !important;
+      text-shadow: 0 0 12px rgba(0,245,255,0.5);
+      letter-spacing: 0.05em;
+      text-decoration: none;
+    }
+
+    /* ===== SEÇÃO INÍCIO / HERO ===== */
+    #inicio {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding-top: 80px;
+    }
+    #inicio::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+    }
+
+    .titulo-heroi {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      line-height: 1.05;
+    }
+    .cursor-digitando::after {
+      content: '_';
+      animation: piscar 1s step-end infinite;
+      color: var(--neon-ciano);
+    }
+    @keyframes piscar { 50% { opacity: 0; } }
+
+    /* ===== CARTÕES ESCUROS ===== */
+    .cartao-escuro {
+      background: var(--cartao-escuro);
+      border: 1px solid var(--borda-escura);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .cartao-escuro::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-ciano), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .cartao-escuro:hover::before { opacity: 1; }
+    .cartao-escuro:hover {
+      border-color: rgba(0,245,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    /* ===== CARTÕES DE PROJETO ===== */
+    .cartao-projeto {
+      background: var(--cartao-escuro);
+      border: 1px solid var(--borda-escura);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: all 0.3s;
+      height: 100%;
+    }
+    .cartao-projeto:hover {
+      border-color: rgba(191,0,255,0.4);
+      box-shadow: 0 0 30px rgba(191,0,255,0.1);
+      transform: translateY(-4px);
+    }
+    .etiqueta-projeto {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.68rem;
+      padding: 2px 8px;
+      border-radius: 2px;
+      border: 1px solid rgba(0,245,255,0.3);
+      color: var(--neon-ciano);
+      background: rgba(0,245,255,0.06);
+    }
+
+    /* ===== TÍTULOS DE SEÇÃO ===== */
+    .rotulo-secao {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--neon-ciano);
+      opacity: 0.7;
+    }
+    .titulo-secao {
+      font-family: 'Orbitron', sans-serif;
+      color: #ffffff;
+    }
+
+    /* ===== FORMULÁRIO ===== */
+    .campo-escuro {
+      background: rgba(0,245,255,0.04) !important;
+      border: 1px solid rgba(0,245,255,0.15) !important;
+      border-radius: 3px !important;
+      color: #c8d8e8 !important;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1rem;
+      box-shadow: none !important;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .campo-escuro:focus {
+      border-color: var(--neon-ciano) !important;
+      box-shadow: 0 0 0 1px rgba(0,245,255,0.2) !important;
+    }
+    .campo-escuro::placeholder { color: #3a5a70; }
+
+    /* ===== BOTÃO NEON ===== */
+    .botao-neon {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      padding: 0.75rem 2rem;
+      border: 1px solid var(--neon-ciano) !important;
+      color: var(--neon-ciano) !important;
+      background: transparent !important;
+      cursor: pointer;
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      text-transform: uppercase;
+      height: auto;
+    }
+    .botao-neon::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--neon-ciano);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s;
+      z-index: 0;
+    }
+    .botao-neon:hover::before { transform: scaleX(1); }
+    .botao-neon:hover { color: var(--fundo-escuro) !important; }
+    .botao-neon span { position: relative; z-index: 1; }
+
+    /* ===== CANTOS DECORATIVOS ===== */
+    .colchetes { position: relative; }
+    .colchetes::before, .colchetes::after {
+      content: '';
+      position: absolute;
+      width: 12px; height: 12px;
+    }
+    .colchetes::before {
+      top: -6px; left: -6px;
+      border-top: 2px solid var(--neon-ciano);
+      border-left: 2px solid var(--neon-ciano);
+    }
+    .colchetes::after {
+      bottom: -6px; right: -6px;
+      border-bottom: 2px solid var(--neon-ciano);
+      border-right: 2px solid var(--neon-ciano);
+    }
+
+    /* ===== ANIMAÇÕES DE ENTRADA ===== */
+    .entrada-suave {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .entrada-suave.visivel {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== RODAPÉ ===== */
+    footer {
+      border-top: 1px solid rgba(0,245,255,0.1);
+      background: rgba(5,10,15,0.95);
+    }
+
+    /* ===== BARRA DE ROLAGEM ===== */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--fundo-escuro); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.3); border-radius: 2px; }
+
+    /* ===== PONTO DE STATUS ===== */
+    .ponto-status {
+      width: 8px; height: 8px; border-radius: 50%;
+      display: inline-block;
+      background: var(--neon-verde);
+      box-shadow: 0 0 8px var(--neon-verde);
+      animation: pulsar-ponto 2s ease-in-out infinite;
+    }
+    @keyframes pulsar-ponto {
+      0%, 100% { box-shadow: 0 0 8px var(--neon-verde); }
+      50% { box-shadow: 0 0 20px var(--neon-verde), 0 0 40px rgba(57,255,20,0.3); }
+    }
+
+    /* ===== EMBLEMAS ===== */
+    .emblema-ia {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      padding: 2px 8px;
+      border-radius: 2px;
+      background: rgba(191,0,255,0.12);
+      border: 1px solid rgba(191,0,255,0.35);
+      color: #d06bff;
+    }
+
+    /* ===== LINHA DIVISÓRIA NEON ===== */
+    .linha-neon {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon-ciano), transparent);
+      opacity: 0.25;
+    }
+
+    /* ===== CARDS DE CERTIFICADOS ===== */
+    .cartao-certificado {
+      background: var(--cartao-escuro);
+      border: 1px solid var(--borda-escura);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: all 0.35s;
+      position: relative;
+    }
+    .cartao-certificado:hover {
+      border-color: rgba(0,245,255,0.35);
+      box-shadow: 0 0 28px rgba(0,245,255,0.08), 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(-5px);
+    }
+    .cartao-certificado::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--neon-ciano), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 1;
+    }
+    .cartao-certificado:hover::before { opacity: 1; }
+
+    .area-imagem-certificado {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #050e1a 0%, #0a1628 100%);
+      border-bottom: 1px solid var(--borda-escura);
+      overflow: hidden;
+    }
+    .cartao-certificado:hover .area-imagem-certificado {
+      border-bottom-color: rgba(0,245,255,0.2);
+    }
+    .imagem-certificado {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      filter: brightness(0.92) saturate(0.9);
+    }
+    .cartao-certificado:hover .imagem-certificado {
+      transform: scale(1.03);
+      filter: brightness(1) saturate(1.1);
+    }
+    .placeholder-certificado {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%; height: 100%;
+      gap: 0.6rem;
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(0,245,255,0.02) 0px, rgba(0,245,255,0.02) 1px,
+        transparent 1px, transparent 12px
+      );
+    }
+    .icone-placeholder { font-size: 2.5rem; opacity: 0.4; }
+    .texto-placeholder {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: #4a6a80;
+      letter-spacing: 0.08em;
+    }
+    .dica-placeholder {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.6rem;
+      color: rgba(0,245,255,0.3);
+      letter-spacing: 0.05em;
+      background: rgba(0,245,255,0.05);
+      border: 1px solid rgba(0,245,255,0.1);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+    .rodape-cartao-certificado {
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+    .titulo-certificado {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.82rem;
+      color: #ffffff;
+      margin-bottom: 0.2rem;
+    }
+    .instituicao-certificado {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: #4a6a80;
+      letter-spacing: 0.08em;
+    }
+    .emblema-certificado {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      padding: 4px 10px;
+      border: 1px solid rgba(0,245,255,0.25);
+      color: var(--neon-ciano);
+      border-radius: 2px;
+      background: rgba(0,245,255,0.05);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ===== SEÇÕES ===== */
+    .secao-pagina {
+      padding: 6rem 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== BOTÃO CONTATO SECUNDÁRIO ===== */
+    .botao-secundario {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: #6a8fa8 !important;
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid rgba(106,143,168,0.3);
+      border-radius: 3px;
+      transition: color 0.2s, border-color 0.2s;
+      text-transform: uppercase;
+    }
+    .botao-secundario:hover {
+      color: #c8d8e8 !important;
+      border-color: rgba(200,216,232,0.4);
+    }
+
+    /* Sobrescrever section do Bulma */
+    section.secao-pagina { background: transparent; }
+  </style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR (Bulma) ===================== -->
+<nav class="navbar navbar-personalizada" role="navigation" aria-label="navegação principal">
+  <div class="container" style="max-width:1200px;">
+
+    <div class="navbar-brand">
+      <a href="#inicio" class="navbar-item logo-nav has-text-weight-bold">&lt;RENATO /&gt;</a>
+
+      <!-- Hamburguer nativo do Bulma -->
+      <a role="button" class="navbar-burger" id="btn-hamburguer" aria-label="menu" aria-expanded="false" data-target="menu-mobile">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="menu-mobile" class="navbar-menu">
+      <div class="navbar-end is-align-items-center">
+        <a href="#sobre"       class="navbar-item link-nav">Sobre</a>
+        <a href="#habilidades" class="navbar-item link-nav">Certificados</a>
+        <a href="#projetos"    class="navbar-item link-nav">Projetos</a>
+        <a href="#contato"     class="navbar-item link-nav">Contato</a>
+        <div class="navbar-item is-flex is-align-items-center" style="gap:6px;">
+          <span class="ponto-status"></span>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#3a8a4a;letter-spacing:0.1em;">ONLINE</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ===================== INÍCIO (HERO) ===================== -->
+<section id="inicio" class="secao-pagina">
+  <div class="container" style="max-width:1200px;width:100%;">
+
+    <div class="mb-4">
+      <span class="rotulo-secao">// INICIANDO SISTEMA...</span>
+    </div>
+
+    <h1 class="titulo-heroi brilho-ciano" style="font-size:clamp(2.8rem,7vw,5.5rem);color:var(--neon-ciano);margin-bottom:0.3rem;">
+      RENATO
+    </h1>
+    <h2 class="titulo-heroi mb-5" style="font-size:clamp(1.6rem,4vw,3rem);color:#c8d8e8;">
+      <span style="color:#4a6a80;">JOVEM</span> <span style="color:#ffffff;">APRENDIZ</span>
+    </h2>
+
+    <div class="is-flex is-justify-content-center is-align-items-center" style="gap:10px;margin-bottom:2.5rem;">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.85rem;color:#4a6a80;">&gt;</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:0.95rem;color:#6a9ab0;" class="cursor-digitando">Ensino Médio · Desenvolvimento de Sistemas</span>
+    </div>
+
+    <p style="font-size:1.1rem;color:#6a8fa8;max-width:480px;line-height:1.7;">
+      Desenvolvendo habilidades de programação. Portfólio construído com o auxílio de Inteligência Artificial Generativa.
+    </p>
+
+    <!-- Botões — Bulma: buttons -->
+    <div class="buttons" style="gap:0.75rem;">
+      <a href="#projetos" class="button botao-neon"><span>VER PROJETOS</span></a>
+      <a href="#contato" class="botao-secundario">CONTATO</a>
+    </div>
+
+    <!-- Blocos informativos -->
+    <div class="is-flex is-flex-wrap-wrap is-justify-content-center is-align-items-center" style="gap:2rem;margin-top:4rem;">
+      <div>
+        <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:1.6rem;color:var(--neon-ciano);">2</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">PROJETOS</div>
+      </div>
+      <div style="width:1px;height:40px;background:rgba(0,245,255,0.15);"></div>
+      <div>
+        <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:1.6rem;color:var(--neon-ciano);">5+</div>
+        <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">TECNOLOGIAS</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="linha-neon" style="position:relative;z-index:1;"></div>
+
+<!-- ===================== SOBRE ===================== -->
+<section id="sobre" class="secao-pagina">
+  <div class="container" style="max-width:1200px;">
+
+    <div class="entrada-suave has-text-centered" style="margin-bottom:3.5rem;">
+      <span class="rotulo-secao">// 01 — SOBRE MIM</span>
+      <h2 class="titulo-secao mt-2 has-text-weight-bold" style="font-size:clamp(1.6rem,3vw,2.2rem);">Quem sou eu?</h2>
+    </div>
+
+    <!-- Bulma: columns -->
+    <div class="columns is-variable is-6 entrada-suave is-align-items-center">
+
+      <!-- Texto -->
+      <div class="column is-half">
+        <div class="cartao-escuro mb-5 has-text-centered" style="padding:2rem;">
+          <span class="is-block mb-4" style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#4a6a80;letter-spacing:0.1em;">IDENTIFICAÇÃO</span>
+          <p style="font-size:1.1rem;color:#9ab8cc;line-height:1.8;">
+            Olá! Sou <strong style="color:var(--neon-ciano);">Renato</strong>, estudante de <strong style="color:#ffffff;">Desenvolvimento de Sistemas</strong> no Ensino Médio. Tenho paixão por criar projetos que resolvem problemas reais.
+          </p>
+        </div>
+        <div class="cartao-escuro has-text-centered" style="padding:2rem;">
+          <span class="is-block mb-4" style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#4a6a80;letter-spacing:0.1em;">MISSÃO</span>
+          <p style="font-size:1.05rem;color:#9ab8cc;line-height:1.8;">
+            <%=perfil.objetivo%>
+          </p>
+        </div>
+      </div>
+
+      <!-- Info cards — Bulma: columns dentro de columns -->
+      <div class="column is-half">
+        <div class="columns is-multiline is-variable is-3">
+
+          <div class="column is-half">
+            <div class="cartao-escuro colchetes p-5 has-text-centered">
+              <div class="mb-2" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">CURSO</div>
+              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-ciano);"><%=estadoAtual.curso.toUpperCase()%></div>
+            </div>
+          </div>
+
+          <div class="column is-half">
+            <div class="cartao-escuro p-5 has-text-centered">
+              <div class="mb-2" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">NÍVEL</div>
+              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-roxo);"><%=estadoAtual.nivel.toUpperCase()%></div>
+            </div>
+          </div>
+
+          <div class="column is-half">
+            <div class="cartao-escuro p-5 has-text-centered">
+              <div class="mb-2" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">FOCO</div>
+              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-verde);"><%=estadoAtual.foco.toUpperCase()%></div>
+            </div>
+          </div>
+
+          <div class="column is-half">
+            <div class="cartao-escuro p-5 has-text-centered">
+              <div class="mb-2" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">STATUS</div>
+              <div class="is-flex is-justify-content-center is-align-items-center has-text-weight-bold" style="gap:6px;font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-ciano);">
+                <span class="ponto-status" style="width:6px;height:6px;"></span>ATIVO
+              </div>
+            </div>
+          </div>
+
+          <div class="column is-full">
+            <div class="cartao-escuro p-5 has-text-centered">
+              <div class="mb-3" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">Habilidades utilizadas</div>
+              <!-- Bulma: tags -->
+              <div class="tags is-centered" style="gap:6px;">
+                <span class="emblema-ia">HTML5</span>
+                <span class="emblema-ia">CSS3</span>
+                <span class="emblema-ia">JavaScript</span>
+                <span class="emblema-ia">Framework css</span>
+                <span class="emblema-ia">Git e GitHub</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="linha-neon" style="position:relative;z-index:1;"></div>
+
+<!-- ===================== CERTIFICADOS ===================== -->
+<section id="habilidades" class="secao-pagina">
+  <div class="container has-text-centered" style="max-width:900px;">
+      <span class="rotulo-secao">// 02 — CERTIFICADOS</span>
+    <div class="entrada-suave" style="margin-bottom:3.5rem;">
+      <h2 class="titulo-secao mt-2 has-text-weight-bold" style="font-size:clamp(1.6rem,3vw,2.2rem);">Minhas Certificações</h2>
+    </div>
+
+    <!-- Bulma: columns is-multiline para os 4 cards 2x2 -->
+    <div class="columns is-multiline is-variable is-4 entrada-suave">
+
+
+        <% certificados.forEach(certificado => { %>
+
+          <!-- Card 1 -->
+      <div class="column is-half">
+              <a href="<%= certificado.link %>">
+
+        <div class="cartao-certificado">
+          <div class="image is-12x12;">
+            <img src="<%=certificado.imagem %>" alt="Certificado 1" class="imagem-certificado"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+            <div class="placeholder-certificado">
+            </div>
+          </div>
+          <div class="rodape-cartao-certificado has-text-centered">
+            <div>
+              <h3 class="titulo-certificado has-text-weight-bold"><%=certificado.nome%></h3>
+              <p class="instituicao-certificado"><%=certificado.plataforma%> - <%=certificado.conclusao%></p>
+            </div>
+          </div>
+        </div>
+      </div>
+        </a>
+
+<% }) %>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PROJETOS ===================== -->
+<section id="projetos" class="secao-pagina">
+  <div class="container" style="max-width:1200px;">
+
+    <div class="entrada-suave has-text-centered" style="margin-bottom:3.5rem;">
+      <span class="rotulo-secao">// 03 — PROJETOS</span>
+      <h2 class="titulo-secao mt-2 has-text-weight-bold" style="font-size:clamp(1.6rem,3vw,2.2rem);">O que eu construí</h2>
+    </div>
+
+    <!-- Bulma: columns para os projetos -->
+    <div class="columns is-variable is-5 entrada-suave">
+
+<% projetos.forEach(projeto => { %>
+      <div class="column is-half">
+        <div class="cartao-projeto">
+          <div style="height:180px;background:linear-gradient(135deg,#030b18 0%,#0a1a30 50%,#081520 100%);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;border-bottom:1px solid rgba(0,245,255,0.12);">
+            <div class="has-text-centered" style="position:relative;z-index:1;">
+              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:1.1rem;color:var(--neon-ciano);text-shadow:0 0 15px rgba(0,245,255,0.5);"><%=projeto.nome%></div>
+            </div>
+            <div style="position:absolute;width:120px;height:120px;border-radius:50%;border:1px solid rgba(0,245,255,0.07);top:-30px;right:-30px;"></div>
+            <div style="position:absolute;width:80px;height:80px;border-radius:50%;border:1px solid rgba(0,245,255,0.05);bottom:10px;left:10px;"></div>
+          </div>
+
+          <div style="padding:1.5rem;">
+            <div class="is-flex is-flex-direction-column is-align-items-center has-text-centered mb-4">
+              <div>
+                <h3 class="mb-1 has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:1rem;color:#ffffff;"><UniMind></h3>
+                <p style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#4a6a80;letter-spacing:0.1em;"><%=projeto.subtitulo%></p>
+              </div>
+              <a href="<%= projeto.url %>" target="_blank" class="mt-3"
+                style="font-family:'Orbitron',sans-serif;font-size:0.6rem;padding:5px 12px;border:1px solid var(--neon-ciano);color:var(--neon-ciano);text-decoration:none;border-radius:2px;letter-spacing:0.08em;white-space:nowrap;transition:background 0.2s,color 0.2s;"
+                onmouseover="this.style.background='var(--neon-ciano)';this.style.color='#050a0f'"
+                onmouseout="this.style.background='transparent';this.style.color='var(--neon-ciano)'">↗ ACESSAR</a>
+            </div>
+
+            <p class="has-text-centered" style="font-size:0.95rem;color:#6a8fa8;line-height:1.75;margin-bottom:1.25rem;">
+              <%=projeto.descricao%>
+            </p>
+
+            <!-- Bulma: tags -->
+            <div class="tags is-centered mb-4" style="gap:6px;">
+            <%projeto.habilidades.forEach(habilidade => { %>
+
+              <span class="etiqueta-projeto"><%=habilidade%></span>
+
+            <% }) %>
+            </div>
+
+            <div class="is-flex is-justify-content-center" style="gap:1rem;font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#3a5a70;">
+              <span>⬡ Questionário IA</span>
+              <span>⬡ Responsivo</span>
+              <span>⬡ Vercel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<% }) %>
+
+    </div>
+  </div>
+</section>
+<style>
+  /* Cards de informação de contato */
+  .cartao-info-contato {
+    background: var(--cartao-escuro);
+    border: 1px solid var(--borda-escura);
+    border-radius: 6px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+  .cartao-info-contato::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon-ciano), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .cartao-info-contato:hover::before { opacity: 1; }
+  .cartao-info-contato:hover {
+    border-color: rgba(0,245,255,0.25);
+    transform: translateY(-3px);
+  }
+ 
+  .icone-info-contato {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+ 
+  .rotulo-info-contato {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    color: #4a6a80;
+    margin-bottom: 0.4rem;
+  }
+ 
+  .valor-info-contato {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    color: #c8d8e8;
+  }
+ 
+  .valor-link {
+    color: var(--neon-ciano) !important;
+    text-decoration: none;
+    transition: text-shadow 0.2s;
+  }
+  .valor-link:hover {
+    text-shadow: 0 0 10px rgba(0,245,255,0.5);
+  }
+</style>
+
+<div class="linha-neon" style="position:relative;z-index:1;"></div>
+
+<!-- ===================== CONTATO ===================== -->
+<section id="contato" class="secao-pagina">
+  <div class="container" style="max-width:900px;">
+ 
+    <div class="entrada-suave has-text-centered mb-6">
+      <span class="rotulo-secao">// 04 — CONTATO</span>
+      <h2 class="titulo-secao mt-2 has-text-weight-bold" style="font-size:clamp(1.6rem,3vw,2.2rem);">Minhas Informações</h2>
+      <p class="mt-4" style="color:#6a8fa8;font-size:1rem;line-height:1.7;">Fique à vontade para entrar em contato por qualquer canal abaixo.</p>
+    </div>
+ 
+    <!-- Grid de cards de informação — Bulma columns -->
+    <div class="columns is-multiline is-variable is-4 entrada-suave">
+ 
+      <!-- Card: Nome -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-ciano);">◈</div>
+          <div>
+            <div class="rotulo-info-contato">NOME COMPLETO</div>
+            <div class="valor-info-contato has-text-weight-semibold"> <%= perfil.nomeCompleto %></div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card: Email -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-ciano);">◈</div>
+          <div>
+            <div class="rotulo-info-contato">EMAIL</div>
+            <a href="mailto:seuemail@email.com" class="valor-info-contato valor-link has-text-weight-semibold"><%= perfil.email%></a>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card: GitHub -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-roxo);">◈</div>
+          <div>
+            <div class="rotulo-info-contato">GITHUB</div>
+            <a href="https://github.com/R3nato-code/Perfil" target="_blank" class="valor-info-contato valor-link has-text-weight-semibold">github.com/Renato</a>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card: LinkedIn -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-roxo);">◈</div>
+          <div>
+            <div class="rotulo-info-contato"><LINKEDIN></div>
+            <a href="https://www.linkedin.com/feed/" target="_blank" class="valor-info-contato valor-link has-text-weight-semibold"><%= perfil.linkedin %></a>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card: Localização -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-verde);">◈</div>
+          <div>
+            <div class="rotulo-info-contato">LOCALIZAÇÃO</div>
+            <div class="valor-info-contato has-text-weight-semibold"><%= perfil.localizacao %></div>
+          </div>
+        </div>
+      </div>
+ 
+      <!-- Card: Disponibilidade -->
+      <div class="column is-half">
+        <div class="cartao-info-contato">
+          <div class="icone-info-contato" style="color:var(--neon-verde);">◈</div>
+          <div>
+            <div class="rotulo-info-contato">DISPONIBILIDADE</div>
+            <div class="valor-info-contato is-flex is-align-items-center has-text-weight-semibold" style="gap:8px;">
+              <span class="ponto-status" style="width:7px;height:7px;flex-shrink:0;"></span>
+              Aberto a oportunidades
+            </div>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <!-- Card destaque: mensagem final -->
+    <div class="entrada-suave" style="margin-top:2rem;">
+      <div class="cartao-escuro has-text-centered" style="padding:2rem;border-color:rgba(0,245,255,0.15);">
+        <p class="mb-3" style="font-family:'Share Tech Mono',monospace;font-size:0.8rem;color:#4a6a80;letter-spacing:0.1em;">// MENSAGEM</p>
+        <p style="font-size:1.05rem;color:#9ab8cc;line-height:1.8;max-width:520px;margin:0 auto;">
+          Estou em busca de aprender, colaborar e crescer. Se você tem um projeto ou oportunidade — <strong style="color:var(--neon-ciano);">entre em contato! <%=perfil.numero%></strong>
+        </p>
+      </div>
+    </div>
+ 
+  </div>
+</section>
+
+<!-- ===================== RODAPÉ ===================== -->
+<footer style="padding:2.5rem 1.5rem;position:relative;z-index:1;">
+  <div class="container" style="max-width:1200px;">
+    <!-- Bulma: level para alinhar rodapé -->
+    <div class="level">
+      <div class="level-left">
+        <div class="level-item is-flex-direction-column is-align-items-flex-start">
+          <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-ciano);margin-bottom:0.3rem;">&lt;RENATO /&gt;</div>
+          <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#3a5a70;letter-spacing:0.1em;">DESENVOLVEDOR DE SISTEMAS · 2026</div>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item has-text-right">
+          <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#2a3a48;letter-spacing:0.08em;">
+            CONSTRUÍDO COM IA GENERATIVA<br>
+            <span style="color:#1a2a38;">HTML5 · CSS3 · JS · BULMA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+  // Hamburguer nativo do Bulma
+  const btnHamburguer = document.getElementById('btn-hamburguer');
+  const menuMobile    = document.getElementById('menu-mobile');
+  if (btnHamburguer) {
+    btnHamburguer.addEventListener('click', () => {
+      btnHamburguer.classList.toggle('is-active');
+      menuMobile.classList.toggle('is-active');
+    });
+  }
+  // Fechar menu ao clicar num link
+  document.querySelectorAll('#menu-mobile .link-nav').forEach(link => {
+    link.addEventListener('click', () => {
+      btnHamburguer.classList.remove('is-active');
+      menuMobile.classList.remove('is-active');
+    });
+  });
+
+  // Animações de entrada com IntersectionObserver
+  const observadorEntrada = new IntersectionObserver((entradas) => {
+    entradas.forEach(entrada => {
+      if (entrada.isIntersecting) {
+        entrada.target.classList.add('visivel');
+        observadorEntrada.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.entrada-suave').forEach(el => observadorEntrada.observe(el));
+
+  // Formulário de contato
+  function enviarFormulario(e) {
+    e.preventDefault();
+    const msgFormulario = document.getElementById('mensagem-formulario');
+    msgFormulario.style.display = 'block';
+    e.target.reset();
+    setTimeout(() => { msgFormulario.style.display = 'none'; }, 4000);
+  }
+
+  // Link de navegação ativo ao rolar
+  const secoes   = document.querySelectorAll('section[id]');
+  const linksNav = document.querySelectorAll('.link-nav');
+  window.addEventListener('scroll', () => {
+    let secaoAtual = '';
+    secoes.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) secaoAtual = s.id;
+    });
+    linksNav.forEach(link => {
+      const ativo = link.getAttribute('href') === '#' + secaoAtual;
+      link.style.color      = ativo ? 'var(--neon-ciano)' : '';
+      link.style.textShadow = ativo ? '0 0 10px rgba(0,245,255,0.6)' : '';
+    });
+  });
+</script>
+
+</body>
+</html>
