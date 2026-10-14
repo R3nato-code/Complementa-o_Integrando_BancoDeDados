@@ -1,10 +1,10 @@
 const conexao=require('../database/conexao')
 
 
-async function BuscarUsuario() {
+async function VerUsuario() {
 
     const [resultado] = await conexao.query("SELECT * FROM PERFIL");
-    return resultado;
+    console.log(resultado)
 }
 
 
@@ -18,6 +18,10 @@ async function cadastrarUsuario(nome,email,descricao) {
   const valores=[nome,email,descricao];
 
   const resultados=await conexao.query(sql,valores);
+
+  VerUsuario();
+
+  
 }
 
 async function atualizarUser(descricao,id) {
@@ -30,6 +34,8 @@ async function atualizarUser(descricao,id) {
     const valores=[descricao,id];
 
   const resultados=await conexao.query(sql,valores);
+
+  VerUsuario();
 }
 
 async function deletarUsuario(id) {
@@ -41,10 +47,16 @@ async function deletarUsuario(id) {
   const valores=[id];
 
   const resultados=await conexao.query(sql,valores);
+
+  VerUsuario();
 }
 
 
 
+//cadastrarUsuario('Kero','kero@gmail','eu sou kero')
+//atualizarUser('EU MUDEI DE PERSONA',13)
+//deletarUsuario(13)
+VerUsuario();
 
 
 
@@ -55,5 +67,3 @@ async function deletarUsuario(id) {
 
 
 
-
-module.exports={BuscarUsuario, cadastrarUsuario, atualizarUser, deletarUsuario};
