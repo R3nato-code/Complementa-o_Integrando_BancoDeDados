@@ -1,64 +1,25 @@
-const conexao=require('../database/conexao')
-
+const conexao = require('../database/conexao');
 
 async function VerUsuario() {
-
-    const [resultado] = await conexao.query("SELECT * FROM PERFIL");
+  const [resultado] = await conexao.query('SELECT * FROM PERFIL ORDER BY ID ASC');
   return resultado;
 }
 
-
-async function cadastrarUsuario(nome,email,descricao) {
-
-    const sql=`
-    INSERT INTO PERFIL (NOME,EMAIL, DESCRICAO) VALUES
-    (?,?,?)
-  `;
-
-  const valores=[nome,email,descricao];
-
-  const resultados=await conexao.query(sql,valores);
-  return resultado;
-  
-
-  
+async function cadastrarUsuario(nome, email, descricao) {
+  const sql = 'INSERT INTO PERFIL (NOME, EMAIL, DESCRICAO) VALUES (?, ?, ?)';
+  const [resultado] = await conexao.query(sql, [nome, email, descricao]);
+  return { id: resultado.insertId, affectedRows: resultado.affectedRows };
 }
 
-async function atualizarUser(descricao,id) {
-
-  const sql=`
-  UPDATE PERFIL 
-  SET DESCRICAO=? 
-  WHERE ID=?`;
-
-    const valores=[descricao,id];
-
-  const resultados=await conexao.query(sql,valores);
-
-  return resultados;
+async function atualizarUser(descricao, id) {
+  const sql = 'UPDATE PERFIL SET DESCRICAO = ? WHERE ID = ?';
+  const [resultado] = await conexao.query(sql, [descricao, id]);
+  return { affectedRows: resultado.affectedRows };
 }
 
 async function deletarUsuario(id) {
-
-
-  const sql=`
-  DELETE FROM PERFIL WHERE ID=?
-  `;
-  const valores=[id];
-
-  const resultados=await conexao.query(sql,valores);
-
-  return resultados;
+  const [resultado] = await conexao.query('DELETE FROM PERFIL WHERE ID = ?', [id]);
+  return { affectedRows: resultado.affectedRows };
 }
 
-
-
-//cadastrarUsuario('Kero','kero@gmail','eu sou kero')
-//atualizarUser('EU MUDEI DE PERSONA',13)
-//deletarUsuario(18)
-//VerUsuario();
-
-module.exports={cadastrarUsuario,atualizarUser,deletarUsuario,VerUsuario}
-
-
-
+module.exports = { cadastrarUsuario, atualizarUser, deletarUsuario, VerUsuario };

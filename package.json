@@ -1,7 +1,7 @@
 {
   "name": "integracao_bd",
   "version": "1.0.0",
-  "description": "",
+  "description": "Portfólio integrado ao MySQL com arquitetura em camadas",
   "homepage": "https://github.com/R3nato-code/Complementa-o_Integrando_BancoDeDados#readme",
   "bugs": {
     "url": "https://github.com/R3nato-code/Complementa-o_Integrando_BancoDeDados/issues"
@@ -11,19 +11,16 @@
     "url": "git+https://github.com/R3nato-code/Complementa-o_Integrando_BancoDeDados.git"
   },
   "license": "ISC",
-  "author": "",
   "type": "commonjs",
   "main": "server.js",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node --watch server.js"
   },
   "dependencies": {
     "dotenv": "^18.0.4",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
     "mysql2": "^3.24.5"
-  },
-  "devDependencies": {}
+  }
 }

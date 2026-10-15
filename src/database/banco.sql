@@ -1,4 +1,5 @@
-CREATE SCHEMA db_complementacao;
+CREATE DATABASE IF NOT EXISTS db_complementacao;
+USE db_complementacao;
 
 
 CREATE TABLE PERFIL (
@@ -8,7 +9,7 @@ CREATE TABLE PERFIL (
     DESCRICAO TEXT NOT NULL
 );
 
-CREATE TABLE CURSOS (
+CREATE TABLE CURSO (
     ID  INT AUTO_INCREMENT PRIMARY KEY,
     FK_PERFIL INT NOT NULL,
     NOME VARCHAR(50) NOT NULL,
@@ -28,7 +29,7 @@ CREATE TABLE CERTIFICADOS (
 INSERT INTO PERFIL (NOME, EMAIL, DESCRICAO) VALUES
 ('Renato da Silva Hipólito', 'mascarenhasr02@gmail.com','Estou no 2° Ano do ensino médio, cursando desenvolvimento de sistemas, tenho interesse em aprender novas habilidades e melhorar minhas capacidades');
 
-INSERT INTO CURSOS (FK_PERFIL, NOME, HORAS) VALUES
+INSERT INTO CURSO (FK_PERFIL, NOME, HORAS) VALUES
 (1, 'Unidade_HTML5 E CSS3 PARTE 1: CRIE UMA PÁGINA DA WEB', 8);
 
 INSERT INTO CERTIFICADOS (FK_PERFIL, TITULO, ANO, IMAGEM) VALUES

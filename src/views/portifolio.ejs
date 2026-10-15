@@ -591,7 +591,7 @@
           <div class="column is-half">
             <div class="cartao-escuro colchetes p-5 has-text-centered">
               <div class="mb-2" style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#4a6a80;letter-spacing:0.15em;">CURSO</div>
-              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-ciano);"><%=estadoAtual.curso.toUpperCase()%></div>
+              <div class="has-text-weight-bold" style="font-family:'Orbitron',sans-serif;font-size:0.85rem;color:var(--neon-ciano);">DESENVOLVIMENTO DE SISTEMAS</div>
             </div>
           </div>
 
@@ -641,6 +641,29 @@
 
 <div class="linha-neon" style="position:relative;z-index:1;"></div>
 
+<!-- ===================== CURSOS ===================== -->
+<section id="cursos" class="secao-pagina">
+  <div class="container" style="max-width:1000px;">
+    <div class="entrada-suave has-text-centered" style="margin-bottom:2.5rem;">
+      <span class="rotulo-secao">// 02 — CURSOS</span>
+      <h2 class="titulo-secao mt-2 has-text-weight-bold" style="font-size:clamp(1.6rem,3vw,2.2rem);">Meus Cursos</h2>
+    </div>
+    <div class="columns is-multiline is-variable is-4">
+      <% cursos.forEach(curso => { %>
+      <div class="column is-half">
+        <div class="cartao-escuro p-5">
+          <h3 class="has-text-weight-bold mb-3" style="color:var(--neon-ciano);font-family:'Orbitron',sans-serif;font-size:0.95rem;"><%= curso.NOME || curso.nome %></h3>
+          <p style="color:#9ab8cc;">Carga horária: <%= curso.HORAS || curso.horas %> horas</p>
+        </div>
+      </div>
+      <% }) %>
+      <% if (cursos.length === 0) { %>
+      <div class="column is-full has-text-centered"><p>Nenhum curso cadastrado.</p></div>
+      <% } %>
+    </div>
+  </div>
+</section>
+<div class="linha-neon" style="position:relative;z-index:1;"></div>
 <!-- ===================== CERTIFICADOS ===================== -->
 <section id="habilidades" class="secao-pagina">
   <div class="container has-text-centered" style="max-width:900px;">

@@ -1,59 +1,43 @@
-const perfilRepositorio= require('../repositories/perfilRepository')
+const perfilRepository = require('../repositories/perfilRepository');
 
-
-
-async function VerUsuario() {
-
-    return await perfilRepositorio.VerUsuario()
-    
+async function listarPerfis() {
+  return perfilRepository.VerUsuario();
 }
 
+async function buscarPerfilPrincipal() {
+  const perfis = await listarPerfis();
+  return perfis[0] || null;
+}
 
+async function cadastrarUsuario(nome, email, descricao) {
+  if (!nome || !email || !descricao) {
+    throw new Error('Nome, e-mail e descrição são obrigatórios.');
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    throw new Error('Informe um e-mail válido.');
+  }
+  return perfilRepository.cadastrarUsuario(nome.trim(), email.trim(), descricao.trim());
+}
 
-
-
-
-async function cadastrarUsuario( nome, email, descricao) {
-
-    if (!nome || !email){
-        throw new error("Esses campos são obrigatórios")
-    }
-    
-  return await perfilRepositorio.cadastrarUsuario(
-    nome,
-    email,
-    descricao
-  );
-
+async function atualizarUser(descricao, id) {
+  if (!descricao || !Number.isInteger(Number(id)) || Number(id) <= 0) {
+    throw new Error('Informe uma descrição e um ID válido.');
+  }
+  return perfilRepository.atualizarUser(descricao.trim(), Number(id));
 }
 
 async function deletarUsuario(id) {
-
-    if(!id || id===-1){
-        throw new error("Obrigatório preencher qual usuário deseja excluir")
-    }
-    
-        return await perfilRepositorio.deletarUsuario(
-        id
-        )
-        
-
-        return await perfilRepositorio.buscar
-    
+  if (!Number.isInteger(Number(id)) || Number(id) <= 0) {
+    throw new Error('Informe um ID válido para excluir.');
+  }
+  return perfilRepository.deletarUsuario(Number(id));
 }
 
-
-async function atualizarUser(descricao,id) {
-
-    if(!descricao || !id){
-        throw new error ('Erro: Todos os dados precisam ser preenchidos')
-    }
-    return await perfilRepositorio.atualizarUser(descricao,id)
-    
-}
-
-
-
-
-
-module.exports={cadastrarUsuario, deletarUsuario,atualizarUser,VerUsuario}
+module.exports = {
+  listarPerfis,
+  buscarPerfilPrincipal,
+  VerUsuario: listarPerfis,
+  cadastrarUsuario,
+  atualizarUser,
+  deletarUsuario
+};

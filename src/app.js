@@ -1,64 +1,21 @@
-const perfilService = require("./services/perfil.service");
+const express = require('express');
+const path = require('path');
+const portfolioRoutes = require('./routes/portifolio.routes');
 
+const app = express();
 
-async function testarCadastro() {
-    try {
-        const resultado = await perfilService.cadastrarUsuario(
-            "PAPA",
-            "RONALDO@gmail.com",
-            "AH SÓ APENAS NOME E EMAILLLL"
-  
-        );
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-        console.log("Cadastro realizado:", resultado);
-    } catch (erro) {
-        console.log("Erro: Todos os campos precisam ser preenchidos");
-    }
-    testeVerusuario()
-}
+app.use('/', portfolioRoutes);
 
+app.use((erro, req, res, next) => {
+  console.error('Erro ao processar a requisição:', erro.code || erro.name || 'erro desconhecido');
+  if (res.headersSent) return next(erro);
+  res.status(500).send('Não foi possível carregar o portfólio. Verifique a conexão com o banco de dados.');
+});
 
-async function testarDelete(id) {
-    try {
-        const resultado = await perfilService.deletarUsuario(
-            id
-        );
-        testeVerusuario()
-
-        console.log("Apagado com sucesso",resultado);
-    } catch (erro) {
-        console.log("Erro: Todos os campos precisam ser preenchidos",);
-    }
-
-
-    
-}
-
-async function testeAtualizar(descricao,id) {
-    
-    try {
-        const resultado = await perfilService.atualizarUser(
-            descricao,
-            id
-        );
-
-        console.log("Atualizado com sucesso",resultado);
-    } catch (erro) {
-        console.log("Erro: Todos os campos precisam ser preenchidos",);
-    }
-    testeVerusuario()
-}
-
-async function testeVerusuario() {
-    const resultado = await perfilService.VerUsuario()
-    console.log(resultado)
-    
-}
-
-
-
-// MENSAGENS DE ERRO APARECENDO ERRADA OU NÃO APARECENDO NO CADASTRAR 
-
-//OK testarDelete(29)
-//OK testeAtualizar('Deu certo',30)
-//OK testarCadastro();
+module.exports = app;

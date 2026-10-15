@@ -1,56 +1,31 @@
-const conexao= require('../database/conexao')
+const conexao = require('../database/conexao');
 
-
-async function Buscarcurso() {
-
-    const [resultado] = await conexao.query("SELECT * FROM CURSO");
-    console.log(resultado)
-
+async function buscarCursos() {
+  const [resultado] = await conexao.query(
+    'SELECT c.ID, c.FK_PERFIL, c.NOME, c.HORAS FROM CURSO c ORDER BY c.ID ASC'
+  );
+  return resultado;
 }
 
-async function cadastrarCurso(fk,nome,horas) {
-
-    const sql = ` INSERT INTO CURSO (FK_PERFIL,NOME, HORAS) VALUES
-    (?,?,?)`;
-
-    const valores= [fk,nome,horas]
-
-    const [resultado]=await conexao.query(sql,valores)
-
-    Buscarcurso();
-    
+async function cadastrarCurso(fkPerfil, nome, horas) {
+  const [resultado] = await conexao.query(
+    'INSERT INTO CURSO (FK_PERFIL, NOME, HORAS) VALUES (?, ?, ?)',
+    [fkPerfil, nome, horas]
+  );
+  return { id: resultado.insertId, affectedRows: resultado.affectedRows };
 }
 
-async function deletarCurso(ID) {
-
-    const sql= `DELETE FROM CURSO WHERE ID=?`;
-    const valores=[ID]
-
-    const resultado= await conexao.query(sql,valores)
-    
-    Buscarcurso();
+async function deletarCurso(id) {
+  const [resultado] = await conexao.query('DELETE FROM CURSO WHERE ID = ?', [id]);
+  return { affectedRows: resultado.affectedRows };
 }
 
-
-async function atualizarCurso(nome,horas,id) {
-
-    const sql=`
-    UPDATE CURSO
-    SET NOME=?,
-        HORAS=?
-    WHERE ID =?`;
-
-    const valores=[nome,horas,id]
-    
-    const [resultado]= await conexao.query(sql,valores)
-
-     Buscarcurso();
+async function atualizarCurso(nome, horas, id) {
+  const [resultado] = await conexao.query(
+    'UPDATE CURSO SET NOME = ?, HORAS = ? WHERE ID = ?',
+    [nome, horas, id]
+  );
+  return { affectedRows: resultado.affectedRows };
 }
 
-
-
-
-//Buscarcurso();
-//cadastrarCurso(1,'HTML5 e CSS3', 60)
-//deletarCurso(3)
-//atualizarCurso('TESTANDO ALTERAÇÃO DE CURSO',1,3)
+module.exports = { buscarCursos, Buscarcurso: buscarCursos, cadastrarCurso, deletarCurso, atualizarCurso };
